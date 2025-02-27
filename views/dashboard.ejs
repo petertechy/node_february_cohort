@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>This is my Dashboard <%= name %> </h1>
+    <% if (gender == "male") { %>
+     <h1>Hello, You are a male Child</h1>
+    <% } else { %>
+        <h1>Hello, You are a female Child</h1>
+   <% } %>
+
+
+   <% for( let index = 0; index < allUsers.length; index++ ) { %>
+    <h1> <%= index + 1  %> </h1>
+    <h1> <%= allUsers[index].firstname %> </h1>
+   <h1> <%= allUsers[index].lastname %> </h1>
+   <h1> <%= allUsers[index].email %> </h1>
+   <h1> <%= allUsers[index].password %> </h1>
+   <% } %>
+
+
+   
+   <!-- <% allUsers.map((users, index)=>{ %>
+       <h1> <%= index + 1 %> </h1>
+       <h1> <%= users.firstname %> </h1>
+       <h1> <%= users.lastname %> </h1>
+       <h1> <%= users.email %> </h1>
+        
+   <% }) %> -->
+
+   
+    
+</body>
+</html>
