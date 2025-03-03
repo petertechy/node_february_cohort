@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
 <body>
     <h1>This is my Dashboard <%= name %> </h1>
@@ -14,21 +15,26 @@
    <% } %>
 
 
-   <% for( let index = 0; index < allUsers.length; index++ ) { %>
+   <% for( let index = 0; index < users.length; index++ ) { %>
     <h1> <%= index + 1  %> </h1>
-    <h1> <%= allUsers[index].firstname %> </h1>
-   <h1> <%= allUsers[index].lastname %> </h1>
-   <h1> <%= allUsers[index].email %> </h1>
-   <h1> <%= allUsers[index].password %> </h1>
+    <h1> <%= users[index].firstname %> </h1>
+   <h1> <%= users[index].lastname %> </h1>
+   <h1> <%= users[index].email %> </h1>
+   <h1> <%= users[index].password %> </h1>
+   <form action="/delete/<%= users[index]._id %>" method="POST" onsubmit="return confirm('Are you sure?');">
+    <button type="submit" class="btn btn-danger mt-2">Delete</button>
+</form>
+
+   <button>Edit</button>
    <% } %>
 
 
    
-   <!-- <% allUsers.map((users, index)=>{ %>
+   <!-- <% users.map((user, index)=>{ %>
        <h1> <%= index + 1 %> </h1>
-       <h1> <%= users.firstname %> </h1>
-       <h1> <%= users.lastname %> </h1>
-       <h1> <%= users.email %> </h1>
+       <h1> <%= user.firstname %> </h1>
+       <h1> <%= user.lastname %> </h1>
+       <h1> <%= user.email %> </h1>
         
    <% }) %> -->
 
