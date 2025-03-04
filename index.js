@@ -32,7 +32,7 @@ let UserSchema = mongoose.Schema({
   email: { type: String, required: true, unique: true },
   age: { type: Number, required: true },
   password: { type: String, required: true },
-  date: { type: String, default: Date.now() },
+  date: { type: Date, default: Date.now() },
 });
 
 let UserModel = mongoose.model(
@@ -119,6 +119,23 @@ app.post("/delete/:id", (req, res) => {
       res.status(500).json({ error: error.message });
     });
 });
+
+app.post("/edit/:id", (req, res)=>{
+  const {id} = req.params;
+  const {firstname, lastname, email, age} = req.body
+
+  UserModel.findByIdAndUpdate(
+    id,
+    {firstname, lastname, email, age},
+    {new: true}
+  )
+  .then((response)=>{
+    console.log(response)
+    res.redirect('/dashboard')
+  }).catch((err)=>{
+    console.log(err)
+  })
+})
 
 app.listen(PORT, () => {
   console.log(`The server have started on port ${PORT}`);
