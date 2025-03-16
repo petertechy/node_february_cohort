@@ -13,7 +13,7 @@ const addUser = (req, res) =>{
       .then(() => {
         console.log("User info saved successfully");
         console.log(form);
-        res.redirect("/dashboard")
+        // res.redirect("/dashboard")
         res.send({ status: true, message: "Correct Submission", form });
       })
       .catch((err) => {
