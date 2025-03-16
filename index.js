@@ -5,8 +5,11 @@ const express = require("express");
 const app = express();
 const ejs = require("ejs");
 const mongoose = require("mongoose");
+const cors = require("cors")
 const adminRouter = require('./routes/admin.route')
 app.use(express.urlencoded({ extended: true }));
+app.use(cors())
+app.use(express.json())
 app.use('/', adminRouter)
 app.set("view engine", "ejs");
 const PORT = 5700;
