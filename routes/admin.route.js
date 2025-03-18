@@ -8,6 +8,7 @@ const {
   endPoint,
   signUpPage,
   aboutPage,
+  signInUsers,
 } = require("../controllers/user.controller");
 const { addProduct } = require("../controllers/product.controller");
 const router = express.Router();
@@ -29,5 +30,7 @@ router.post("/delete/:id", deleteUser);
 router.post("/edit/:id", editUser);
 
 router.post("/add-product", addProduct)
+
+router.post("/signin", signInUsers)
 
 module.exports = router;
