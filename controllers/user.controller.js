@@ -96,5 +96,32 @@ const aboutPage = (req, res) =>{
     console.log(__dirname);
 }
 
+const signInUsers = (req, res)=>{
+  // console.log(req.body)
+  let {password} = req.body
+  UserModel.findOne({email: req.body.email})
+  .then((user)=>{
+    console.log(user)
+    if(user){
+      // console.log("email is valid")
+      user.validatePassword(password, (err, same)=>{
+        console.log(password)
+        if(!same){
+          res.send({status: false, message: "Invalid Credentials"})
+        }
+        else{
+          res.send({status: true, message: "Correct Info"})
 
-module.exports = {addUser, editUser, deleteUser, getDashboard, landingPage, endPoint, signUpPage, aboutPage}
+        }
+      })
+    }else{
+      res.send({status: false, message: "Invalid credentials"})
+    }
+  })
+  .catch((err)=>{
+    console.log(err)
+  })
+}
+
+
+module.exports = {addUser, editUser, deleteUser, getDashboard, landingPage, endPoint, signUpPage, aboutPage, signInUsers}
