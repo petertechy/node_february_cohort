@@ -1,4 +1,5 @@
 const UserModel = require('../models/user.model')
+const jwt = require("jsonwebtoken")
 
 const landingPage = (req,res)=>{
     // response.send("This is my landing page")
@@ -58,19 +59,35 @@ const deleteUser = (req, res) =>{
       });
 }
 
+// const getDashboard = (req, res) =>{
+//     UserModel.find()
+//       .then((allUsers) => {
+//         res.render("dashboard", {
+//           name: "Olanrewaju",
+//           gender: "male",
+//           users: allUsers,
+//         });
+//       })
+//       .catch((err) => {
+//         console.log(err);
+//       });
+// }
+
 const getDashboard = (req, res) =>{
-    UserModel.find()
-      .then((allUsers) => {
-        res.render("dashboard", {
-          name: "Olanrewaju",
-          gender: "male",
-          users: allUsers,
-        });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+  let token = req.headers.authorization.split(" ")[1]
+  // console.log(token)
+  jwt.verify(token, "secret", (err, result)=>{
+    if(err){
+      console.log(err)
+      res.send({status: false, message: "Invalid token"})
+    }else{
+      console.log(result)
+      res.send({status:true, message: "valid token"})
+    
+    }
+  })
 }
+
 
 const endPoint = (req, res) =>{
     const endpoint = [
@@ -101,17 +118,18 @@ const signInUsers = (req, res)=>{
   let {password} = req.body
   UserModel.findOne({email: req.body.email})
   .then((user)=>{
-    console.log(user)
+    // console.log(user)
     if(user){
       // console.log("email is valid")
       user.validatePassword(password, (err, same)=>{
-        console.log(password)
+        // console.log(password)
         if(!same){
           res.send({status: false, message: "Invalid Credentials"})
         }
         else{
-          res.send({status: true, message: "Correct Info"})
-
+          let token = jwt.sign({email: req.body.email}, "secret",{expiresIn: "1h"})
+          // console.log(token)
+          res.send({status: true, message: "Correct Info", token})
         }
       })
     }else{
