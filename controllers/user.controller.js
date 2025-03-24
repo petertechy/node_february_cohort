@@ -79,11 +79,15 @@ const getDashboard = (req, res) =>{
   jwt.verify(token, "secret", (err, result)=>{
     if(err){
       console.log(err)
-      res.send({status: false, message: "Invalid token"})
+      res.send({status: false, message: "Invalid token or expired"})
     }else{
       console.log(result)
-      res.send({status:true, message: "valid token"})
-    
+      let email = result.email
+      UserModel.findOne({email:email},)
+      .then((user)=>{
+        res.send({status:true, message: "valid token",user})
+      })
+      
     }
   })
 }
