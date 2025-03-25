@@ -7,9 +7,9 @@ const ejs = require("ejs");
 const mongoose = require("mongoose");
 const cors = require("cors")
 const adminRouter = require('./routes/admin.route')
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: true, limit: "30mb" }));
 app.use(cors())
-app.use(express.json())
+app.use(express.json({limit: "30mb"}))
 app.use('/', adminRouter)
 app.set("view engine", "ejs");
 const PORT = 5700;
