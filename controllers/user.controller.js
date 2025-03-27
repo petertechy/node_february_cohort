@@ -1,6 +1,8 @@
 const UserModel = require('../models/user.model')
 const jwt = require("jsonwebtoken")
 const cloudinary = require("cloudinary")
+const nodemailer = require("nodemailer")
+//Thunderclient, swagger, postman, insomia
 
 cloudinary.config({ 
   cloud_name: 'dcntfpntm', 
@@ -20,9 +22,33 @@ const addUser = (req, res) =>{
       .save()
       .then(() => {
         console.log("User info saved successfully");
+        const transporter = nodemailer.createTransport({
+          service: 'gmail',
+          auth: {
+            user: 'petertechy01@gmail.com',
+            pass: 'lely noah jhoq qgte'
+          }
+        });
+        
+        const mailOptions = {
+          from: 'petertechy01@gmail.com',
+          to: [req.body.email, "yemmit@gmail.com", "ikolabaolanrewaju@gmail.com"],
+          subject: 'Welcome to my Jumia App',
+          html: "<h1 style='color: red';>Congratulations!</h1> <p>This is to welcome you to my jumia app officially. Thank you for joining us here. We Love you!</p>"
+        };
+        
+        transporter.sendMail(mailOptions, function(error, info){
+          if (error) {
+            console.log(error);
+          } else {
+            console.log('Email sent: ' + info.response);
+          }
+        });
         console.log(form);
         // res.redirect("/dashboard")
         res.send({ status: true, message: "Correct Submission", form });
+
+
       })
       .catch((err) => {
         console.log(err);
