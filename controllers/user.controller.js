@@ -2,12 +2,13 @@ const UserModel = require('../models/user.model')
 const jwt = require("jsonwebtoken")
 const cloudinary = require("cloudinary")
 const nodemailer = require("nodemailer")
+const getWelcomeEmail = require("../utils/welcomeEmail");
 //Thunderclient, swagger, postman, insomia
 
 cloudinary.config({ 
-  cloud_name: 'dcntfpntm', 
-  api_key: '963429939113368', 
-  api_secret: '-Vp9g6gGPNox2OJ7EzMPCAAxZqU'
+  cloud_name: process.env.CLOUD_NAME, 
+  api_key: process.env.CLOUD_API_KEY, 
+  api_secret: process.env.CLOUD_SECRET_KEY
 });
 
 const landingPage = (req,res)=>{
@@ -15,49 +16,45 @@ const landingPage = (req,res)=>{
     res.render("index");
 }
 
-const addUser = (req, res) =>{
-    // console.log(req.body)
-    let form = new UserModel(req.body);
-    form
-      .save()
-      .then(() => {
-        console.log("User info saved successfully");
-        const transporter = nodemailer.createTransport({
-          service: 'gmail',
-          auth: {
-            user: 'petertechy01@gmail.com',
-            pass: 'lely noah jhoq qgte'
-          }
-        });
-        
-        const mailOptions = {
-          from: 'petertechy01@gmail.com',
-          to: [req.body.email, "yemmit@gmail.com", "ikolabaolanrewaju@gmail.com"],
-          subject: 'Welcome to my Jumia App',
-          html: "<h1 style='color: red';>Congratulations!</h1> <p>This is to welcome you to my jumia app officially. Thank you for joining us here. We Love you!</p>"
-        };
-        
-        transporter.sendMail(mailOptions, function(error, info){
-          if (error) {
-            console.log(error);
-          } else {
-            console.log('Email sent: ' + info.response);
-          }
-        });
-        console.log(form);
-        // res.redirect("/dashboard")
-        res.send({ status: true, message: "Correct Submission", form });
+const addUser = (req, res) => {
+  let form = new UserModel(req.body);
+  form
+    .save()
+    .then(() => {
+      console.log("User info saved successfully");
 
-
-      })
-      .catch((err) => {
-        console.log(err);
-        res.send({ status: false, message: "Invalid input" });
+      const transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+          user: process.env.USER,
+          pass: process.env.PASS
+        }
       });
-    // allUsers.push(req.body)
-    // console.log(allUsers)
-    // res.send("Successfully registered")
-}
+
+      const mailOptions = {
+        from: 'petertechy01@gmail.com',
+        to: [req.body.email, "yemmit@gmail.com", "ikolabaolanrewaju@gmail.com"],
+        subject: 'Welcome to My Jumia App',
+        html: getWelcomeEmail(req.body.firstname)
+      };
+
+      transporter.sendMail(mailOptions, function(error, info) {
+        if (error) {
+          console.log(error);
+        } else {
+          console.log('Email sent: ' + info.response);
+        }
+      });
+
+      console.log(form);
+      res.send({ status: true, message: "Correct Submission", form });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.send({ status: false, message: "Invalid input" });
+    });
+};
+
 
 const editUser = (req, res) =>{
     const {id} = req.params;
