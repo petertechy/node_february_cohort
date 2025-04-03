@@ -1,21 +1,22 @@
 // console.log("This is my server")
-//Modularization - MVC 
+//Modularization - MVC
 // import express from "express"
 const express = require("express");
 const app = express();
 const ejs = require("ejs");
 const mongoose = require("mongoose");
-const cors = require("cors")
-const adminRouter = require('./routes/admin.route')
+const dotenv = require("dotenv");
+dotenv.config();
+const cors = require("cors");
+const adminRouter = require("./routes/admin.route");
 app.use(express.urlencoded({ extended: true, limit: "30mb" }));
-app.use(cors())
-app.use(express.json({limit: "30mb"}))
-app.use('/', adminRouter)
+app.use(cors());
+app.use(express.json({ limit: "30mb" }));
+app.use("/", adminRouter);
 app.set("view engine", "ejs");
-const PORT = 5700;
+const PORT = process.env.PORT;
 let allUsers = [];
-let URI =
-  "mongodb+srv://ikolabaolanrewaju:olanrewaju09@cluster0.3jaoi.mongodb.net/Jumia_database?retryWrites=true&w=majority&appName=Cluster0";
+let URI = process.env.MONGODB_URI;
 //connect to Mongodb
 mongoose
   .connect(URI)
