@@ -6,6 +6,7 @@ const app = express();
 const ejs = require("ejs");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
+const {greetUsers} = require("abeokuta-package")
 dotenv.config();
 const cors = require("cors");
 const adminRouter = require("./routes/admin.route");
@@ -18,6 +19,7 @@ const PORT = process.env.PORT;
 let allUsers = [];
 let URI = process.env.MONGODB_URI;
 //connect to Mongodb
+console.log(greetUsers('Esther'))
 mongoose
   .connect(URI)
   .then(() => {
