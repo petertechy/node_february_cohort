@@ -191,5 +191,15 @@ const fileUpload = (req, res)=>{
   })
 }
 
+const getAllUsers = async (req, res) => {
+  try {
+    const users = await UserModel.find();
+    res.send({ status: true, users });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({ status: false, message: "Failed to fetch users" });
+  }
+};
 
-module.exports = {addUser, editUser, deleteUser, getDashboard, landingPage, endPoint, signUpPage, aboutPage, signInUsers, fileUpload}
+
+module.exports = {addUser, editUser, deleteUser, getDashboard, landingPage, endPoint, signUpPage, aboutPage, signInUsers, fileUpload, getAllUsers}
