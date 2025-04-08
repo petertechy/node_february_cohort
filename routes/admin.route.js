@@ -10,6 +10,7 @@ const {
   aboutPage,
   signInUsers,
   fileUpload,
+  getAllUsers,
 } = require("../controllers/user.controller");
 const { addProduct } = require("../controllers/product.controller");
 const router = express.Router();
@@ -35,5 +36,8 @@ router.post("/add-product", addProduct)
 router.post("/signin", signInUsers)
 
 router.post("/file-upload", fileUpload)
+
+router.post("/all-users", getAllUsers)
+
 
 module.exports = router;
