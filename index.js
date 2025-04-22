@@ -29,6 +29,23 @@ mongoose
   .catch((err) => {
     console.log(err);
   });
-app.listen(PORT, () => {
+let connection = app.listen(PORT, () => {
   console.log(`The server have started on port ${PORT}`);
 });
+
+let socketServer = require('socket.io')
+let io = socketServer(connection, {
+  cors: {orgin: "*"}
+})
+
+io.on("connection", (socket)=>{
+  console.log(socket.id)
+  console.log("A user connected successfully")
+  socket.on("sendMsg", (message)=>{
+    console.log(message)
+    io.emit("broadcastMsg",message)
+  })
+  socket.on("disconnet", ()=>{
+    console.log("User Disconnected")
+  })
+})
